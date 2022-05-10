@@ -2,24 +2,24 @@ package com.simo333.spring.projects.ordersmanager.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 @Entity
 @IdClass(MoneyRatePKId.class)
 public class MoneyRate {
     @Id
-    /*@ManyToOne*/
-    private Long modelId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "model_id", nullable = false)
+    private Model modelId;
     @Id
-    private Long jobPositionId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "job_position_id", nullable = false)
+    private JobPosition jobPositionId;
     private BigDecimal rate;
 
 

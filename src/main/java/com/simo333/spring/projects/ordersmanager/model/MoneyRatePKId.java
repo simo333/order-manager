@@ -12,6 +12,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class MoneyRatePKId implements Serializable {
-    private Long modelId;
-    private Long jobPositionId;
+    private Model modelId;
+    private JobPosition jobPositionId;
 }
