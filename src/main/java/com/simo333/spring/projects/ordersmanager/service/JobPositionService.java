@@ -37,6 +37,6 @@ public class JobPositionService {
 
     @Transactional
     public void deleteJobPositionById(Long id) {
-        repository.deleteModelById(id);
+        repository.deleteJobPositionById(id);
     }
 }
