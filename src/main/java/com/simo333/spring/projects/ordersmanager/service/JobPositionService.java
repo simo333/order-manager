@@ -30,7 +30,7 @@ public class JobPositionService {
         return repository.findJobPositionById(id);
 //                .orElseThrow(() -> new ModelNotFoundException("Model by id " + id + " was not found!"));
     }
-
+//TODO fix all updates as in: https://www.youtube.com/watch?v=Xz1ZbIaJiWg
     public JobPosition updateJobPosition(JobPosition jobPosition) {
         return repository.save(jobPosition);
     }

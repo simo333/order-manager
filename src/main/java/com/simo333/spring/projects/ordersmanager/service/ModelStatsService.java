@@ -4,6 +4,7 @@ import com.simo333.spring.projects.ordersmanager.data.ModelStatsRepository;
 import com.simo333.spring.projects.ordersmanager.model.ModelStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,11 +17,11 @@ public class ModelStatsService {
         this.repository = repository;
     }
 
-    public ModelStats addMoneyRate(ModelStats moneyRate) {
-        return repository.save(moneyRate);
+    public ModelStats addModelStats(ModelStats modelStats) {
+        return repository.save(modelStats);
     }
 
-    public List<ModelStats> findAllMoneyRate() {
+    public List<ModelStats> findAllModelStats() {
         return repository.findAll();
     }
 
@@ -32,7 +33,14 @@ public class ModelStatsService {
         return repository.findModeStatsByJobPositionId(id);
     }
 
+    public ModelStats updateModelStats(ModelStats modelStats) {
+        return repository.save(modelStats);
+    }
 
+    @Transactional
+    public void deleteOneById(Long id) {
+        repository.deleteModelStatsByModelId(id);
+    }
 
 
 }
