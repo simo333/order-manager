@@ -29,6 +29,7 @@ public class ModelStatsService {
         return repository.findModelStatsByModelId(id);
     }
 
+    //TODO FIX this
     public ModelStats findOneByJobPositionId(Long id) {
         return repository.findModeStatsByJobPositionId(id);
     }
@@ -41,6 +42,5 @@ public class ModelStatsService {
     public void deleteOneById(Long id) {
         repository.deleteModelStatsByModelId(id);
     }
-
 
 }

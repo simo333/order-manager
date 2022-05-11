@@ -1,5 +1,6 @@
 package com.simo333.spring.projects.ordersmanager.resources;
 
+import com.simo333.spring.projects.ordersmanager.model.JobPosition;
 import com.simo333.spring.projects.ordersmanager.model.ModelStats;
 import com.simo333.spring.projects.ordersmanager.service.ModelStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,22 @@ public class ModelStatsController {
     public ResponseEntity<ModelStats> newModelStats(@RequestBody ModelStats modelStats) {
         ModelStats newModelStats = service.addModelStats(modelStats);
         return new ResponseEntity<>(newModelStats, HttpStatus.CREATED);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ModelStats> findOneByModelId(@PathVariable("id") Long id) {
+        ModelStats actualModelStats = service.findOneByModelId(id);
+        if (actualModelStats == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(actualModelStats, HttpStatus.OK);
+    }
+
+    @GetMapping("/jp/{id}")
+    public ResponseEntity<ModelStats> findOneByJobPositionId(@PathVariable("id") Long id) {
+        ModelStats actualModelStats = service.findOneByJobPositionId(id);
+        if (actualModelStats == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(actualModelStats, HttpStatus.OK);
     }
 }
