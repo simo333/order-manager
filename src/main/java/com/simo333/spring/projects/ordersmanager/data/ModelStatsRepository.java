@@ -4,10 +4,15 @@ import com.simo333.spring.projects.ordersmanager.model.ModelStats;
 import com.simo333.spring.projects.ordersmanager.model.ModelStatsPkId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ModelStatsRepository extends JpaRepository<ModelStats, ModelStatsPkId> {
-    ModelStats findModelStatsByModelId(Long id);
+import java.util.List;
 
-    ModelStats findModeStatsByJobPositionId(Long id);
+public interface ModelStatsRepository extends JpaRepository<ModelStats, ModelStatsPkId> {
+
+    List<ModelStats> findAllByModelId(Long id);
+
+    List<ModelStats> findAllByJobPositionId(Long id);
+
+    ModelStats findModelStatsByModelIdAndJobPositionId(Long modelId, Long jobPositionId);
 
     void deleteModelStatsByModelId(Long id);
 }

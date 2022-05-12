@@ -1,6 +1,5 @@
 package com.simo333.spring.projects.ordersmanager.resources;
 
-import com.simo333.spring.projects.ordersmanager.model.JobPosition;
 import com.simo333.spring.projects.ordersmanager.model.ModelStats;
 import com.simo333.spring.projects.ordersmanager.service.ModelStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,20 @@ public class ModelStatsController {
         ModelStats newModelStats = service.addModelStats(modelStats);
         return new ResponseEntity<>(newModelStats, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{modelId}/{jobPositionId}")
+    public ResponseEntity<ModelStats> findOneByModelIdAndJobPositionId(@PathVariable("modelId") Long modelId,
+                                                                       @PathVariable("jobPositionId") Long jobPositionId) {
+        ModelStats modelStats = service.findOneByModelIdAndJobPositionId(modelId, jobPositionId);
+        if (modelStats == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(modelStats, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ModelStats> findOneByModelId(@PathVariable("id") Long id) {
-        ModelStats actualModelStats = service.findOneByModelId(id);
+    public ResponseEntity<List<ModelStats>> findAllByModelId(@PathVariable("id") Long id) {
+        List<ModelStats> actualModelStats = service.findAllByModelId(id);
         if (actualModelStats == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -43,8 +53,8 @@ public class ModelStatsController {
     }
 
     @GetMapping("/jp/{id}")
-    public ResponseEntity<ModelStats> findOneByJobPositionId(@PathVariable("id") Long id) {
-        ModelStats actualModelStats = service.findOneByJobPositionId(id);
+    public ResponseEntity<List<ModelStats>> findAllByJobPositionId(@PathVariable("id") Long id) {
+        List<ModelStats> actualModelStats = service.findAllByJobPositionId(id);
         if (actualModelStats == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

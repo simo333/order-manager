@@ -25,19 +25,23 @@ public class ModelStatsService {
         return repository.findAll();
     }
 
-    public ModelStats findOneByModelId(Long id) {
-        return repository.findModelStatsByModelId(id);
+    public List<ModelStats> findAllByModelId(Long id) {
+        return repository.findAllByModelId(id);
     }
 
-    //TODO FIX this
-    public ModelStats findOneByJobPositionId(Long id) {
-        return repository.findModeStatsByJobPositionId(id);
+    public List<ModelStats> findAllByJobPositionId(Long id) {
+        return repository.findAllByJobPositionId(id);
+    }
+
+    public ModelStats findOneByModelIdAndJobPositionId(Long modelId, Long jobPositionId) {
+        return repository.findModelStatsByModelIdAndJobPositionId(modelId, jobPositionId);
     }
 
     public ModelStats updateModelStats(ModelStats modelStats) {
         return repository.save(modelStats);
     }
 
+    //TODO rewrite this method
     @Transactional
     public void deleteOneById(Long id) {
         repository.deleteModelStatsByModelId(id);
