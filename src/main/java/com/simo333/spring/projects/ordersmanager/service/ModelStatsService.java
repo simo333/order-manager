@@ -34,17 +34,23 @@ public class ModelStatsService {
     }
 
     public ModelStats findOneByModelIdAndJobPositionId(Long modelId, Long jobPositionId) {
-        return repository.findModelStatsByModelIdAndJobPositionId(modelId, jobPositionId);
+        return repository.findModelStatsByModelIdAndJobPositionId(modelId, jobPositionId).orElseThrow();
     }
 
-    public ModelStats updateModelStats(ModelStats modelStats) {
-        return repository.save(modelStats);
-    }
-
-    //TODO rewrite this method
+    //TODO exception handling
     @Transactional
-    public void deleteOneById(Long id) {
-        repository.deleteModelStatsByModelId(id);
+    public ModelStats updateModelStats(ModelStats modelStats) {
+        ModelStats modelStatsToEdit = repository
+                .findModelStatsByModelIdAndJobPositionId(modelStats.getModel().getId(), modelStats.getModel().getId())
+                .orElseThrow();
+        modelStatsToEdit.setRate(modelStats.getRate());
+        modelStatsToEdit.setTimeToComplete(modelStats.getTimeToComplete());
+        return repository.save(modelStatsToEdit);
+    }
+
+    @Transactional
+    public void deleteOneByModelIdAndJobPositionId(Long modelId, Long jobPositionId) {
+        repository.deleteOneByModelIdAndJobPositionId(modelId, jobPositionId);
     }
 
 }

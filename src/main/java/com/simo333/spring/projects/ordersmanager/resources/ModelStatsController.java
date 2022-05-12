@@ -60,4 +60,16 @@ public class ModelStatsController {
         }
         return new ResponseEntity<>(actualModelStats, HttpStatus.OK);
     }
+
+    @PutMapping
+    public ResponseEntity<ModelStats> updateModelStats(@RequestBody ModelStats modelStats) {
+        ModelStats editedModelStats = service.updateModelStats(modelStats);
+        return new ResponseEntity<>(editedModelStats, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{modelId}/{jobPositionId}")
+    public void deleteModelStats(@PathVariable("modelId") Long modelId,
+                                 @PathVariable("jobPositionId") Long jobPositionId) {
+        service.deleteOneByModelIdAndJobPositionId(modelId, jobPositionId);
+    }
 }

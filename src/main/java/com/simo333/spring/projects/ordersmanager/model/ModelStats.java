@@ -14,9 +14,11 @@ import java.math.BigDecimal;
 public class ModelStats {
     @Id
     @ManyToOne
+    @JoinColumn(updatable = false)
     private Model model;
     @Id
     @ManyToOne
+    @JoinColumn(updatable = false)
     private JobPosition jobPosition;
     private BigDecimal rate;
     private int timeToComplete;
