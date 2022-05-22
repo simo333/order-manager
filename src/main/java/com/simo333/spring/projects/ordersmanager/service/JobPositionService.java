@@ -27,11 +27,13 @@ public class JobPositionService {
     }
 
     public JobPosition findJobPositionById(Long id) {
-        return repository.findJobPositionById(id);
-//                .orElseThrow(() -> new ModelNotFoundException("Model by id " + id + " was not found!"));
+        return repository.findJobPositionById(id).orElseThrow();
     }
-//TODO fix all updates as in: https://www.youtube.com/watch?v=Xz1ZbIaJiWg
+
+    @Transactional
     public JobPosition updateJobPosition(JobPosition jobPosition) {
+        JobPosition jobPositionToEdit = repository.findJobPositionById(jobPosition.getId()).orElseThrow();
+        jobPositionToEdit.setName(jobPosition.getName());
         return repository.save(jobPosition);
     }
 

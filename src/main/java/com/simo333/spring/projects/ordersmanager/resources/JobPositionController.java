@@ -42,14 +42,9 @@ public class JobPositionController {
         return new ResponseEntity<>(newJobPosition, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<JobPosition> updateJobPosition(@RequestBody JobPosition jobPosition, @PathVariable("id") Long id) {
-        JobPosition actualJobPosition = service.findJobPositionById(id);
-        if(actualJobPosition == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        jobPosition.setId(id);
-        actualJobPosition = service.updateJobPosition(jobPosition);
+    @PutMapping
+    public ResponseEntity<JobPosition> updateJobPosition(@RequestBody JobPosition jobPosition) {
+        JobPosition actualJobPosition = service.updateJobPosition(jobPosition);
         return new ResponseEntity<>(actualJobPosition, HttpStatus.OK);
     }
 
