@@ -31,6 +31,7 @@ public class OrderedModelService {
         return repository.findOrderedModelById(id).orElseThrow();
     }
 
+    @Transactional
     public OrderedModel updateOrderedModel(OrderedModel orderedModel) {
         OrderedModel orderedModelToEdit = repository.findOrderedModelById(orderedModel.getId()).orElseThrow();
         orderedModelToEdit.setModel(orderedModel.getModel());

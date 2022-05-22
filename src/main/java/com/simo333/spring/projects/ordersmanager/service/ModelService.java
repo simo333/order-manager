@@ -30,6 +30,7 @@ public class ModelService {
         return modelRepository.save(model);
     }
 
+    @Transactional
     public Model updateModel(Model model) {
         Model modelToEdit = modelRepository.findModelById(model.getId()).orElseThrow();
         modelToEdit.setName(model.getName());
