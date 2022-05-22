@@ -1,7 +1,6 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
 import com.simo333.spring.projects.ordersmanager.data.OrderedModelRepository;
-import com.simo333.spring.projects.ordersmanager.exception.OrderedModelNotFoundException;
 import com.simo333.spring.projects.ordersmanager.model.OrderedModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

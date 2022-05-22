@@ -1,10 +1,12 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
 import com.simo333.spring.projects.ordersmanager.data.EmployeeRepository;
+import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import com.simo333.spring.projects.ordersmanager.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,8 @@ public class EmployeeService {
     }
 
     public Employee findEmployeeById(Long id) {
-        return repository.findEmployeeById(id).orElseThrow();
+        return repository.findEmployeeById(id)
+                .orElseThrow(() -> new ApiRequestException("Employee not found.", HttpStatus.NOT_FOUND));
     }
 
     public Employee addEmployee(Employee employee) {
@@ -32,7 +35,7 @@ public class EmployeeService {
 
     @Transactional
     public Employee updateEmployee(Employee employee) {
-        Employee employeeToEdit = repository.findEmployeeById(employee.getId()).orElseThrow();
+        Employee employeeToEdit = findEmployeeById(employee.getId());
         employeeToEdit.setCity(employee.getCity());
         employeeToEdit.setContractBeginning(employee.getContractBeginning());
         employeeToEdit.setContractExpiration(employee.getContractExpiration());
