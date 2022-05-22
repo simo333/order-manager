@@ -41,7 +41,8 @@ public class ModelStatsService {
     @Transactional
     public ModelStats updateModelStats(ModelStats modelStats) {
         ModelStats modelStatsToEdit = repository
-                .findModelStatsByModelIdAndJobPositionId(modelStats.getModel().getId(), modelStats.getModel().getId())
+                .findModelStatsByModelIdAndJobPositionId(
+                        modelStats.getModel().getId(), modelStats.getJobPosition().getId())
                 .orElseThrow();
         modelStatsToEdit.setRate(modelStats.getRate());
         modelStatsToEdit.setTimeToComplete(modelStats.getTimeToComplete());

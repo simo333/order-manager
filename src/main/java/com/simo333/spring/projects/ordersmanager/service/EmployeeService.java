@@ -23,14 +23,27 @@ public class EmployeeService {
     }
 
     public Employee findEmployeeById(Long id) {
-        return repository.findEmployeeById(id);
+        return repository.findEmployeeById(id).orElseThrow();
     }
 
     public Employee addEmployee(Employee employee) {
         return repository.save(employee);
     }
 
+    @Transactional
     public Employee updateEmployee(Employee employee) {
+        Employee employeeToEdit = repository.findEmployeeById(employee.getId()).orElseThrow();
+        employeeToEdit.setCity(employee.getCity());
+        employeeToEdit.setContractBeginning(employee.getContractBeginning());
+        employeeToEdit.setContractExpiration(employee.getContractExpiration());
+        employeeToEdit.setCountry(employee.getCountry());
+        employeeToEdit.setDateOfBirth(employee.getDateOfBirth());
+        employeeToEdit.setLastName(employee.getLastName());
+        employeeToEdit.setName(employee.getName());
+        employeeToEdit.setPhoneNumber(employee.getPhoneNumber());
+        employeeToEdit.setStreet(employee.getStreet());
+        employeeToEdit.setZipCode(employee.getZipCode());
+        employeeToEdit.setJobPosition(employee.getJobPosition());
         return repository.save(employee);
     }
 

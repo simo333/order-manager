@@ -42,14 +42,9 @@ public class EmployeeController {
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
-        Employee actualEmployee = service.findEmployeeById(id);
-        if(actualEmployee == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        employee.setId(id);
-        actualEmployee = service.updateEmployee(employee);
+    @PutMapping
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+        Employee actualEmployee = service.updateEmployee(employee);
         return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
     }
 
