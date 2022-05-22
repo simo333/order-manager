@@ -36,10 +36,10 @@ public class OrderStatsController {
         return new ResponseEntity<>(newOrderStats, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderStats> updateOrderStats(@RequestBody OrderStats orderStats, @PathVariable("id") Long id) {
-        OrderStats newOrderStats = service.addOrderStats(orderStats);
-        return new ResponseEntity<>(newOrderStats, HttpStatus.CREATED);
+    @PutMapping
+    public ResponseEntity<OrderStats> updateOrderStats(@RequestBody OrderStats orderStats) {
+        OrderStats actualOrderStats = service.addOrderStats(orderStats);
+        return new ResponseEntity<>(actualOrderStats, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

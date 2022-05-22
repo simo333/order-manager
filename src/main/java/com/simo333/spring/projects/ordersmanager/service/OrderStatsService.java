@@ -23,8 +23,7 @@ public class OrderStatsService {
     }
 
     public OrderStats findOrderStatsById(Long id) {
-        return repository.findOrderStatsById(id).orElseThrow(
-                () -> new OrderStatsNotFoundException("Order by id " + id + " was not found!"));
+        return repository.findOrderStatsById(id).orElseThrow();
     }
 
 
@@ -32,7 +31,15 @@ public class OrderStatsService {
         return repository.save(orderStats);
     }
 
+    @Transactional
     public OrderStats updateOrderStats(OrderStats orderStats) {
+        OrderStats orderToEdit = repository.findOrderStatsById(orderStats.getId()).orElseThrow();
+        orderToEdit.setDeadlineDate(orderStats.getDeadlineDate());
+        orderToEdit.setDeliveryCity(orderStats.getDeliveryCity());
+        orderToEdit.setDeliveryCountry(orderStats.getDeliveryCountry());
+        orderToEdit.setDeliveryName(orderStats.getDeliveryName());
+        orderToEdit.setDeliveryStreet(orderStats.getDeliveryStreet());
+        orderToEdit.setDeliveryZip(orderStats.getDeliveryZip());
         return repository.save(orderStats);
     }
 
