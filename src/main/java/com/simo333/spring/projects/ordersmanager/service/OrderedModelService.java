@@ -28,11 +28,14 @@ public class OrderedModelService {
     }
 
     public OrderedModel findOrderedModelById(Long id) {
-        return repository.findOrderedModelById(id).orElseThrow(
-                () -> new OrderedModelNotFoundException("Ordered mode by id " + id + " was not found!"));
+        return repository.findOrderedModelById(id).orElseThrow();
     }
 
     public OrderedModel updateOrderedModel(OrderedModel orderedModel) {
+        OrderedModel orderedModelToEdit = repository.findOrderedModelById(orderedModel.getId()).orElseThrow();
+        orderedModelToEdit.setModel(orderedModel.getModel());
+        orderedModelToEdit.setMaterial(orderedModel.getMaterial());
+        orderedModelToEdit.setSpecialDesign(orderedModel.getSpecialDesign());
         return repository.save(orderedModel);
     }
 

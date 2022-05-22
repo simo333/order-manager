@@ -19,13 +19,13 @@ public class OrderedModelController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderedModel>> all() {
+    public ResponseEntity<List<OrderedModel>> findAllOrderedModels() {
         List<OrderedModel> orderedModels = service.findAllOrderedModels();
         return new ResponseEntity<>(orderedModels, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderedModel> one(@PathVariable("id") Long id) {
+    public ResponseEntity<OrderedModel> findOneByOrderedModelId(@PathVariable("id") Long id) {
         OrderedModel orderedModel = service.findOrderedModelById(id);
         return new ResponseEntity<>(orderedModel, HttpStatus.OK);
     }
@@ -36,9 +36,8 @@ public class OrderedModelController {
         return new ResponseEntity<>(newOrderedModel, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderedModel> updateOrderedModel(
-            @RequestBody OrderedModel orderedModel, @PathVariable("id") Long id) {
+    @PutMapping
+    public ResponseEntity<OrderedModel> updateOrderedModel(@RequestBody OrderedModel orderedModel) {
         OrderedModel newOrderedModel = service.updateOrderedModel(orderedModel);
         return new ResponseEntity<>(newOrderedModel, HttpStatus.OK);
     }
