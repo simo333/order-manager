@@ -28,9 +28,6 @@ public class ModelController {
     @GetMapping("/{id}")
     ResponseEntity<Model> findModelById(@PathVariable("id") Long id) {
         Model actualModel = service.findModelById(id);
-        if (actualModel == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(actualModel, HttpStatus.OK);
     }
 

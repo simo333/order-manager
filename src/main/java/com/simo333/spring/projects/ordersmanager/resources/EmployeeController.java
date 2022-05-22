@@ -30,9 +30,6 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<Employee> findEmployeeById(@PathVariable("id") Long id) {
         Employee actualEmployee = service.findEmployeeById(id);
-        if (actualEmployee == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
     }
 
@@ -48,6 +45,7 @@ public class EmployeeController {
         return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
     }
 
+    //TODO check delete methods
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id) {
         Employee actualEmployee = service.findEmployeeById(id);

@@ -37,27 +37,18 @@ public class ModelStatsController {
     public ResponseEntity<ModelStats> findOneByModelIdAndJobPositionId(@PathVariable("modelId") Long modelId,
                                                                        @PathVariable("jobPositionId") Long jobPositionId) {
         ModelStats modelStats = service.findOneByModelIdAndJobPositionId(modelId, jobPositionId);
-        if (modelStats == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(modelStats, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<List<ModelStats>> findAllByModelId(@PathVariable("id") Long id) {
         List<ModelStats> actualModelStats = service.findAllByModelId(id);
-        if (actualModelStats == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(actualModelStats, HttpStatus.OK);
     }
 
     @GetMapping("/jp/{id}")
     public ResponseEntity<List<ModelStats>> findAllByJobPositionId(@PathVariable("id") Long id) {
         List<ModelStats> actualModelStats = service.findAllByJobPositionId(id);
-        if (actualModelStats == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(actualModelStats, HttpStatus.OK);
     }
 

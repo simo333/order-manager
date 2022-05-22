@@ -1,8 +1,10 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
 import com.simo333.spring.projects.ordersmanager.data.JobPositionRepository;
+import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import com.simo333.spring.projects.ordersmanager.model.JobPosition;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +29,13 @@ public class JobPositionService {
     }
 
     public JobPosition findJobPositionById(Long id) {
-        return repository.findJobPositionById(id).orElseThrow();
+        return repository.findJobPositionById(id)
+                .orElseThrow(() -> new ApiRequestException("Job position not found.", HttpStatus.NOT_FOUND));
     }
 
     @Transactional
     public JobPosition updateJobPosition(JobPosition jobPosition) {
-        JobPosition jobPositionToEdit = repository.findJobPositionById(jobPosition.getId()).orElseThrow();
+        JobPosition jobPositionToEdit = findJobPositionById(jobPosition.getId());
         jobPositionToEdit.setName(jobPosition.getName());
         return repository.save(jobPosition);
     }

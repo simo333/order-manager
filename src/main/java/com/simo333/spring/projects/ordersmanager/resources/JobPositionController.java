@@ -30,9 +30,6 @@ public class JobPositionController {
     @GetMapping("/{id}")
     public ResponseEntity<JobPosition> findJobPositionById(@PathVariable("id") Long id) {
         JobPosition actualJobPosition = service.findJobPositionById(id);
-        if (actualJobPosition == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(actualJobPosition, HttpStatus.OK);
     }
 
