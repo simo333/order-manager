@@ -40,16 +40,10 @@ public class ModelController {
         return new ResponseEntity<>(newModel, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    ResponseEntity<?> updateModel(@RequestBody Model model, @PathVariable("id") Long id) {
-        Model actualModel = service.findModelById(id);
-        if (actualModel == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        model.setId(id);
-        actualModel = service.updateModel(model);
+    @PutMapping
+    ResponseEntity<?> updateModel(@RequestBody Model model) {
+        Model actualModel = service.updateModel(model);
         return new ResponseEntity<>(actualModel, HttpStatus.OK);
-
     }
 
     @DeleteMapping("/{id}")

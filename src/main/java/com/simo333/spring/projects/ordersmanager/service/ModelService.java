@@ -23,8 +23,7 @@ public class ModelService {
     }
 
     public Model findModelById(Long id) {
-        return modelRepository.findModelById(id);
-//                .orElseThrow(() -> new ModelNotFoundException("Model by id " + id + " was not found!"));
+        return modelRepository.findModelById(id).orElseThrow();
     }
 
     public Model addModel(Model model) {
@@ -32,6 +31,10 @@ public class ModelService {
     }
 
     public Model updateModel(Model model) {
+        Model modelToEdit = modelRepository.findModelById(model.getId()).orElseThrow();
+        modelToEdit.setName(model.getName());
+        modelToEdit.setInnerName(model.getInnerName());
+        modelToEdit.setType(model.getType());
         return modelRepository.save(model);
     }
 
