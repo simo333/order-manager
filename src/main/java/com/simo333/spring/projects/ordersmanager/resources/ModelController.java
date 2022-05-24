@@ -20,31 +20,31 @@ public class ModelController {
     }
 
     @GetMapping
-    ResponseEntity<Page<Model>> findAllModelsInPages(Pageable page) {
+    ResponseEntity<Page<Model>> findInPages(Pageable page) {
         Page<Model> models = service.findAllModelsInPages(page);
         return new ResponseEntity<>(models, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Model> findModelById(@PathVariable("id") Long id) {
+    ResponseEntity<Model> findById(@PathVariable("id") Long id) {
         Model actualModel = service.findModelById(id);
         return new ResponseEntity<>(actualModel, HttpStatus.OK);
     }
 
     @PostMapping
-    ResponseEntity<Model> newModel(@RequestBody Model model) {
+    ResponseEntity<Model> add(@RequestBody Model model) {
         Model newModel = service.addModel(model);
         return new ResponseEntity<>(newModel, HttpStatus.CREATED);
     }
 
     @PutMapping
-    ResponseEntity<?> updateModel(@RequestBody Model model) {
+    ResponseEntity<?> update(@RequestBody Model model) {
         Model actualModel = service.updateModel(model);
         return new ResponseEntity<>(actualModel, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteModel(@PathVariable("id") Long id) {
+    ResponseEntity<?> delete(@PathVariable("id") Long id) {
         service.deleteModel(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

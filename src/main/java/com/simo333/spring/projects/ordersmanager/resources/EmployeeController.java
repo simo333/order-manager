@@ -22,31 +22,31 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Employee>> findAllEmployeesInPages(Pageable page) {
+    public ResponseEntity<Page<Employee>> findAllInPages(Pageable page) {
         Page<Employee> employees = service.findAllEmployeesInPages(page);
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findEmployeeById(@PathVariable("id") Long id) {
+    public ResponseEntity<Employee> findById(@PathVariable("id") Long id) {
         Employee actualEmployee = service.findEmployeeById(id);
         return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> add(@RequestBody Employee employee) {
         Employee newEmployee = service.addEmployee(employee);
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> update(@RequestBody Employee employee) {
         Employee actualEmployee = service.updateEmployee(employee);
         return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         service.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

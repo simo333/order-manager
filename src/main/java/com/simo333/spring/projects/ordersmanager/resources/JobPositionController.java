@@ -22,31 +22,31 @@ public class JobPositionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<JobPosition>> findAllJobPositions() {
+    public ResponseEntity<List<JobPosition>> findAll() {
         List<JobPosition> jobPositionList = service.findAllJobPositions();
         return new ResponseEntity<>(jobPositionList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JobPosition> findJobPositionById(@PathVariable("id") Long id) {
+    public ResponseEntity<JobPosition> findById(@PathVariable("id") Long id) {
         JobPosition actualJobPosition = service.findJobPositionById(id);
         return new ResponseEntity<>(actualJobPosition, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<JobPosition> newJobPosition(@RequestBody JobPosition jobPosition) {
+    public ResponseEntity<JobPosition> add(@RequestBody JobPosition jobPosition) {
         JobPosition newJobPosition = service.addJobPosition(jobPosition);
         return new ResponseEntity<>(newJobPosition, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<JobPosition> updateJobPosition(@RequestBody JobPosition jobPosition) {
+    public ResponseEntity<JobPosition> update(@RequestBody JobPosition jobPosition) {
         JobPosition actualJobPosition = service.updateJobPosition(jobPosition);
         return new ResponseEntity<>(actualJobPosition, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteJobPosition(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         service.deleteJobPositionById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

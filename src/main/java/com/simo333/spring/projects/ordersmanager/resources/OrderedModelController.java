@@ -19,31 +19,31 @@ public class OrderedModelController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderedModel>> findAllOrderedModels() {
+    public ResponseEntity<List<OrderedModel>> findAll() {
         List<OrderedModel> orderedModels = service.findAllOrderedModels();
         return new ResponseEntity<>(orderedModels, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderedModel> findOneByOrderedModelId(@PathVariable("id") Long id) {
+    public ResponseEntity<OrderedModel> findByOrderedModelId(@PathVariable("id") Long id) {
         OrderedModel orderedModel = service.findOrderedModelById(id);
         return new ResponseEntity<>(orderedModel, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<OrderedModel> newOrderedModel(@RequestBody OrderedModel orderedModel) {
+    public ResponseEntity<OrderedModel> add(@RequestBody OrderedModel orderedModel) {
         OrderedModel newOrderedModel = service.addOrderedModel(orderedModel);
         return new ResponseEntity<>(newOrderedModel, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<OrderedModel> updateOrderedModel(@RequestBody OrderedModel orderedModel) {
+    public ResponseEntity<OrderedModel> update(@RequestBody OrderedModel orderedModel) {
         OrderedModel newOrderedModel = service.updateOrderedModel(orderedModel);
         return new ResponseEntity<>(newOrderedModel, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrderedModel(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         service.deleteOrderedModel(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

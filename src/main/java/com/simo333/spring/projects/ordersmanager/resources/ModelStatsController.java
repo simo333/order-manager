@@ -22,19 +22,19 @@ public class ModelStatsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ModelStats>> findAllModelStats() {
+    public ResponseEntity<List<ModelStats>> findAll() {
         List<ModelStats> modelStatsList = service.findAllModelStats();
         return new ResponseEntity<>(modelStatsList, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ModelStats> newModelStats(@RequestBody ModelStats modelStats) {
+    public ResponseEntity<ModelStats> add(@RequestBody ModelStats modelStats) {
         ModelStats newModelStats = service.addModelStats(modelStats);
         return new ResponseEntity<>(newModelStats, HttpStatus.CREATED);
     }
 
     @GetMapping("/{modelId}/{jobPositionId}")
-    public ResponseEntity<ModelStats> findOneByModelIdAndJobPositionId(@PathVariable("modelId") Long modelId,
+    public ResponseEntity<ModelStats> findByModelIdAndJobPositionId(@PathVariable("modelId") Long modelId,
                                                                        @PathVariable("jobPositionId") Long jobPositionId) {
         ModelStats modelStats = service.findOneByModelIdAndJobPositionId(modelId, jobPositionId);
         return new ResponseEntity<>(modelStats, HttpStatus.OK);
@@ -53,14 +53,14 @@ public class ModelStatsController {
     }
 
     @PutMapping
-    public ResponseEntity<ModelStats> updateModelStats(@RequestBody ModelStats modelStats) {
+    public ResponseEntity<ModelStats> update(@RequestBody ModelStats modelStats) {
         ModelStats editedModelStats = service.updateModelStats(modelStats);
         return new ResponseEntity<>(editedModelStats, HttpStatus.OK);
     }
 
     @DeleteMapping("/{modelId}/{jobPositionId}")
-    public ResponseEntity<?> deleteModelStats(@PathVariable("modelId") Long modelId,
-                                 @PathVariable("jobPositionId") Long jobPositionId) {
+    public ResponseEntity<?> delete(@PathVariable("modelId") Long modelId,
+                                    @PathVariable("jobPositionId") Long jobPositionId) {
         service.deleteOneByModelIdAndJobPositionId(modelId, jobPositionId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -19,31 +19,31 @@ public class OrderStatsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderStats>> all() {
+    public ResponseEntity<List<OrderStats>> findAll() {
         List<OrderStats> ordersStats = service.findAllOrders();
         return new ResponseEntity<>(ordersStats, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderStats> one(@PathVariable("id") Long id) {
+    public ResponseEntity<OrderStats> findById(@PathVariable("id") Long id) {
         OrderStats orderStats = service.findOrderStatsById(id);
         return new ResponseEntity<>(orderStats, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<OrderStats> addOrderStats(@RequestBody OrderStats orderStats) {
+    public ResponseEntity<OrderStats> add(@RequestBody OrderStats orderStats) {
         OrderStats newOrderStats = service.addOrderStats(orderStats);
         return new ResponseEntity<>(newOrderStats, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<OrderStats> updateOrderStats(@RequestBody OrderStats orderStats) {
+    public ResponseEntity<OrderStats> update(@RequestBody OrderStats orderStats) {
         OrderStats actualOrderStats = service.addOrderStats(orderStats);
         return new ResponseEntity<>(actualOrderStats, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrderStats(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         service.deleteOrderStats(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
