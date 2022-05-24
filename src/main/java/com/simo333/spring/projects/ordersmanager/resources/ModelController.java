@@ -45,9 +45,6 @@ public class ModelController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteModel(@PathVariable("id") Long id) {
-        if(service.findModelById(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         service.deleteModel(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

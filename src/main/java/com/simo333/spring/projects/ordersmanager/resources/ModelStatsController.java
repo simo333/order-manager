@@ -59,8 +59,9 @@ public class ModelStatsController {
     }
 
     @DeleteMapping("/{modelId}/{jobPositionId}")
-    public void deleteModelStats(@PathVariable("modelId") Long modelId,
+    public ResponseEntity<?> deleteModelStats(@PathVariable("modelId") Long modelId,
                                  @PathVariable("jobPositionId") Long jobPositionId) {
         service.deleteOneByModelIdAndJobPositionId(modelId, jobPositionId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

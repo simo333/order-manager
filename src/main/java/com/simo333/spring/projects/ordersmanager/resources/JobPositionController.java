@@ -47,10 +47,6 @@ public class JobPositionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteJobPosition(@PathVariable("id") Long id) {
-        JobPosition actualJobPosition = service.findJobPositionById(id);
-        if(actualJobPosition == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         service.deleteJobPositionById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
