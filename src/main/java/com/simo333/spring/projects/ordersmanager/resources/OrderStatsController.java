@@ -38,7 +38,7 @@ public class OrderStatsController {
 
     @PutMapping
     public ResponseEntity<OrderStats> update(@RequestBody OrderStats orderStats) {
-        OrderStats actualOrderStats = service.addOrderStats(orderStats);
+        OrderStats actualOrderStats = service.updateOrderStats(orderStats);
         return new ResponseEntity<>(actualOrderStats, HttpStatus.CREATED);
     }
 

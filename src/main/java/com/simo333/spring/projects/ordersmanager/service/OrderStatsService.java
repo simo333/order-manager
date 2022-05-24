@@ -1,8 +1,10 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
 import com.simo333.spring.projects.ordersmanager.data.OrderStatsRepository;
+import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import com.simo333.spring.projects.ordersmanager.model.OrderStats;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,8 @@ public class OrderStatsService {
     }
 
     public OrderStats findOrderStatsById(Long id) {
-        return repository.findOrderStatsById(id).orElseThrow();
+        return repository.findOrderStatsById(id).orElseThrow(
+                () -> new ApiRequestException("Order statistics not found for given id", HttpStatus.NOT_FOUND));
     }
 
 
@@ -32,7 +35,7 @@ public class OrderStatsService {
 
     @Transactional
     public OrderStats updateOrderStats(OrderStats orderStats) {
-        OrderStats orderToEdit = repository.findOrderStatsById(orderStats.getId()).orElseThrow();
+        OrderStats orderToEdit = findOrderStatsById(orderStats.getId());
         orderToEdit.setDeadlineDate(orderStats.getDeadlineDate());
         orderToEdit.setDeliveryCity(orderStats.getDeliveryCity());
         orderToEdit.setDeliveryCountry(orderStats.getDeliveryCountry());

@@ -1,8 +1,10 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
 import com.simo333.spring.projects.ordersmanager.data.OrderedModelRepository;
+import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import com.simo333.spring.projects.ordersmanager.model.OrderedModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +29,13 @@ public class OrderedModelService {
     }
 
     public OrderedModel findOrderedModelById(Long id) {
-        return repository.findOrderedModelById(id).orElseThrow();
+        return repository.findOrderedModelById(id)
+                .orElseThrow(() -> new ApiRequestException("Model not found for given id", HttpStatus.NOT_FOUND));
     }
 
     @Transactional
     public OrderedModel updateOrderedModel(OrderedModel orderedModel) {
-        OrderedModel orderedModelToEdit = repository.findOrderedModelById(orderedModel.getId()).orElseThrow();
+        OrderedModel orderedModelToEdit = findOrderedModelById(orderedModel.getId());
         orderedModelToEdit.setModel(orderedModel.getModel());
         orderedModelToEdit.setMaterial(orderedModel.getMaterial());
         orderedModelToEdit.setSpecialDesign(orderedModel.getSpecialDesign());
