@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,7 +29,7 @@ public class ModelStatsController {
     }
 
     @PostMapping
-    public ResponseEntity<ModelStats> add(@RequestBody ModelStats modelStats) {
+    public ResponseEntity<ModelStats> add(@Valid @RequestBody ModelStats modelStats) {
         ModelStats newModelStats = service.addModelStats(modelStats);
         return new ResponseEntity<>(newModelStats, HttpStatus.CREATED);
     }
@@ -53,11 +54,11 @@ public class ModelStatsController {
     }
 
     @PutMapping
-    public ResponseEntity<ModelStats> update(@RequestBody ModelStats modelStats) {
+    public ResponseEntity<ModelStats> update(@Valid @RequestBody ModelStats modelStats) {
         ModelStats editedModelStats = service.updateModelStats(modelStats);
         return new ResponseEntity<>(editedModelStats, HttpStatus.OK);
     }
-
+//TODO test deletion job position which has some model stats
     @DeleteMapping("/{modelId}/{jobPositionId}")
     public ResponseEntity<?> delete(@PathVariable("modelId") Long modelId,
                                     @PathVariable("jobPositionId") Long jobPositionId) {

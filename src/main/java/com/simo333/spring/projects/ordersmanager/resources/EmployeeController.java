@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/employees")
@@ -34,13 +36,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<Employee> add(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> add(@Valid @RequestBody Employee employee) {
         Employee newEmployee = service.addEmployee(employee);
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Employee> update(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> update(@Valid @RequestBody Employee employee) {
         Employee actualEmployee = service.updateEmployee(employee);
         return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
     }

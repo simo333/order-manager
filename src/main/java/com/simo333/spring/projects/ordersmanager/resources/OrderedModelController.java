@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,13 +32,13 @@ public class OrderedModelController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderedModel> add(@RequestBody OrderedModel orderedModel) {
+    public ResponseEntity<OrderedModel> add(@Valid @RequestBody OrderedModel orderedModel) {
         OrderedModel newOrderedModel = service.addOrderedModel(orderedModel);
         return new ResponseEntity<>(newOrderedModel, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<OrderedModel> update(@RequestBody OrderedModel orderedModel) {
+    public ResponseEntity<OrderedModel> update(@Valid @RequestBody OrderedModel orderedModel) {
         OrderedModel newOrderedModel = service.updateOrderedModel(orderedModel);
         return new ResponseEntity<>(newOrderedModel, HttpStatus.OK);
     }

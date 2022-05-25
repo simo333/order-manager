@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,13 +32,13 @@ public class OrderStatsController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderStats> add(@RequestBody OrderStats orderStats) {
+    public ResponseEntity<OrderStats> add(@Valid @RequestBody OrderStats orderStats) {
         OrderStats newOrderStats = service.addOrderStats(orderStats);
         return new ResponseEntity<>(newOrderStats, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<OrderStats> update(@RequestBody OrderStats orderStats) {
+    public ResponseEntity<OrderStats> update(@Valid @RequestBody OrderStats orderStats) {
         OrderStats actualOrderStats = service.updateOrderStats(orderStats);
         return new ResponseEntity<>(actualOrderStats, HttpStatus.CREATED);
     }
