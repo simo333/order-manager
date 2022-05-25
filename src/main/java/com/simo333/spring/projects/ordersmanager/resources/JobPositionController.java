@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,13 +35,13 @@ public class JobPositionController {
     }
 
     @PostMapping
-    public ResponseEntity<JobPosition> add(@RequestBody JobPosition jobPosition) {
+    public ResponseEntity<JobPosition> add(@Valid @RequestBody JobPosition jobPosition) {
         JobPosition newJobPosition = service.addJobPosition(jobPosition);
         return new ResponseEntity<>(newJobPosition, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<JobPosition> update(@RequestBody JobPosition jobPosition) {
+    public ResponseEntity<JobPosition> update(@Valid @RequestBody JobPosition jobPosition) {
         JobPosition actualJobPosition = service.updateJobPosition(jobPosition);
         return new ResponseEntity<>(actualJobPosition, HttpStatus.OK);
     }

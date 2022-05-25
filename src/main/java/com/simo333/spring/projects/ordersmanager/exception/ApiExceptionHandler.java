@@ -1,13 +1,17 @@
 package com.simo333.spring.projects.ordersmanager.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ApiExceptionHandler {
 
     @ExceptionHandler(value = ApiRequestException.class)
@@ -18,6 +22,13 @@ public class ApiExceptionHandler {
                 ZonedDateTime.now(ZoneId.systemDefault())
         );
         return new ResponseEntity<>(apiException, e.getHttpStatus());
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        Map<String, String> errorsMap = new HashMap<>();
+        e.getBindingResult().getFieldErrors().forEach(error -> errorsMap.put(error.getField(), error.getDefaultMessage()));
+        return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
     }
 
 }
