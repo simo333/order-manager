@@ -1,11 +1,14 @@
 package com.simo333.spring.projects.ordersmanager.model;
 
 import com.simo333.spring.projects.ordersmanager.model.types.FurnitureType;
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @Getter
@@ -17,23 +20,14 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "To pole nie może być puste")
+    @Size(min = 3, max = 50, message = "Nazwa musi zawierać od 3 do 50 znaków")
     private String name;
+    @NotNull(message = "To pole nie może być puste")
+    @Size(min = 3, max = 50, message = "Nazwa musi zawierać od 3 do 50 znaków")
     private String innerName;
     @ManyToOne
     private FurnitureType type;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Model model = (Model) o;
-        return id != null && Objects.equals(id, model.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
 
 

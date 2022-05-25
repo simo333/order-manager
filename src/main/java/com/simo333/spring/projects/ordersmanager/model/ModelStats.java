@@ -3,6 +3,9 @@ package com.simo333.spring.projects.ordersmanager.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
@@ -20,6 +23,10 @@ public class ModelStats {
     @ManyToOne
     @JoinColumn(updatable = false)
     private JobPosition jobPosition;
+    @NotNull(message = "To pole nie może być puste")
+    @Positive(message = "Stawka musi być liczbą dodatnią")
     private BigDecimal rate;
+    @NotNull(message = "To pole nie może być puste")
+    @Positive(message = "Czas jest wymagany")
     private int timeToComplete;
 }
