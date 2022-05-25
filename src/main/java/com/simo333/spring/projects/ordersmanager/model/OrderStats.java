@@ -4,9 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.type.ZonedDateTimeType;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,23 +27,30 @@ public class OrderStats {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date placedAt;
+    private ZonedDateTime placedAt;
 
+    @NotNull(message = "Termin dostawy jest wymagany")
+    @Future(message = "Termin zamówienia musi odnosić się do przyszłości")
     private Date deadlineDate;
 
-    @NotBlank(message = "Name is required")
+    @NotNull(message = "Nazwa dostawy jest wymagana")
+    @Size(min = 3, max = 100, message = "Nazwa musi zawierać od 3 do 100 znaków")
     private String deliveryName;
 
-    @NotBlank(message = "Street is required")
+    @NotNull(message = "Ulica jest wymagana")
+    @Size(min = 3, max = 100, message = "Nazwa ulicy musi zawierać od 3 do 100 znaków")
     private String deliveryStreet;
 
-    @NotBlank(message = "City is required")
+    @NotNull(message = "Miejscowość jest wymagana")
+    @Size(min = 3, max = 100, message = "Nazwa miejscowości musi zawierać od 3 do 100 znaków")
     private String deliveryCity;
 
-    @NotBlank(message = "Zip code is required")
+    @NotNull(message = "Kod pocztowy jest wymagany")
+    @Pattern(regexp = "\\d{2}-\\d{3}", message = "Kod pocztowy musi być w formacie 00-000")
     private String deliveryZip;
 
-    @NotBlank(message = "Country is required")
+    @NotNull(message = "Państwo jest wymagane")
+    @Size(min = 3, max = 100, message = "Nazwa państwa musi zawierać od 3 do 100 znaków")
     private String deliveryCountry;
 
     @OneToMany
@@ -46,7 +58,7 @@ public class OrderStats {
 
     @PrePersist
     void placedAt() {
-        this.placedAt = new Date();
+        this.placedAt = ZonedDateTime.now(ZoneId.systemDefault());
     }
 
 }
