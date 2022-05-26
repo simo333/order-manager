@@ -26,6 +26,7 @@ public class Model {
     @NotNull(message = "To pole nie może być puste")
     @Size(min = 3, max = 50, message = "Nazwa musi zawierać od 3 do 50 znaków")
     private String innerName;
+    @NotNull(message = "Typ jest wymagany")
     @ManyToOne
     private FurnitureType type;
 }

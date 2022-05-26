@@ -1,6 +1,9 @@
 package com.simo333.spring.projects.ordersmanager.model.types;
 
+import com.simo333.spring.projects.ordersmanager.data.ModelRepository;
+import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,10 +13,12 @@ import java.util.List;
 public class FurnitureTypeService {
 
     private final FurnitureTypeRepository repository;
+    private final ModelRepository modelRepository;
 
     @Autowired
-    public FurnitureTypeService(FurnitureTypeRepository repository) {
+    public FurnitureTypeService(FurnitureTypeRepository repository, ModelRepository modelRepository) {
         this.repository = repository;
+        this.modelRepository = modelRepository;
     }
 
     public FurnitureType addFurnitureType(FurnitureType type) {
@@ -25,8 +30,8 @@ public class FurnitureTypeService {
     }
 
     public FurnitureType findFurnitureTypeById(Long id) {
-        return repository.findFurnitureTypeById(id);
-//                .orElseThrow(() -> new FurnitureTypeNotFoundException("Model by id " + id + " was not found!"));
+        return repository.findFurnitureTypeById(id).orElseThrow(
+                () -> new ApiRequestException("Furniture type for given id not found", HttpStatus.NOT_FOUND));
     }
 
     public FurnitureType updateFurnitureType(FurnitureType type) {
@@ -35,6 +40,9 @@ public class FurnitureTypeService {
 
     @Transactional
     public void deleteFurnitureType(Long id) {
+        if(!modelRepository.findAllByTypeId(id).isEmpty()) {
+            modelRepository.deleteAllByTypeId(id);
+        }
         repository.deleteFurnitureTypeById(id);
     }
 }

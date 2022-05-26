@@ -3,6 +3,7 @@ package com.simo333.spring.projects.ordersmanager.data;
 import com.simo333.spring.projects.ordersmanager.model.Model;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ModelRepository extends JpaRepository<Model, Long> {
@@ -10,4 +11,7 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     void deleteModelById(Long id);
 
+    List<Model> findAllByTypeId(Long id);
+
+    void deleteAllByTypeId(Long id);
 }
