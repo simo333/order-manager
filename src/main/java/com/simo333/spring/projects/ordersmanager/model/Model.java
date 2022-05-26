@@ -1,6 +1,5 @@
 package com.simo333.spring.projects.ordersmanager.model;
 
-import com.simo333.spring.projects.ordersmanager.model.types.FurnitureType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

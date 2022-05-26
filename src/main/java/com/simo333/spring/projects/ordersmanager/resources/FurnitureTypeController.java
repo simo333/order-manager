@@ -1,5 +1,7 @@
-package com.simo333.spring.projects.ordersmanager.model.types;
+package com.simo333.spring.projects.ordersmanager.resources;
 
+import com.simo333.spring.projects.ordersmanager.model.FurnitureType;
+import com.simo333.spring.projects.ordersmanager.service.FurnitureTypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
