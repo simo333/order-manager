@@ -35,6 +35,8 @@ public class FurnitureTypeService {
     }
 
     public FurnitureType updateFurnitureType(FurnitureType type) {
+        FurnitureType typeToEdit = findFurnitureTypeById(type.getId());
+        typeToEdit.setName(type.getName());
         return repository.save(type);
     }
 
