@@ -16,4 +16,8 @@ public interface ModelStatsRepository extends JpaRepository<ModelStats, ModelSta
     Optional<ModelStats> findModelStatsByModelIdAndJobPositionId(Long modelId, Long jobPositionId);
 
     void deleteOneByModelIdAndJobPositionId(Long modelId, Long jobPositionId);
+
+    void deleteAllByJobPositionId(Long id);
+
+    void deleteAllByModelId(Long id);
 }

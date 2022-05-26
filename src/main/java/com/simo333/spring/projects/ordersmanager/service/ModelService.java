@@ -1,6 +1,7 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
 import com.simo333.spring.projects.ordersmanager.data.ModelRepository;
+import com.simo333.spring.projects.ordersmanager.data.ModelStatsRepository;
 import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import com.simo333.spring.projects.ordersmanager.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +14,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ModelService {
 
-    private final ModelRepository modelRepository;
+    private final ModelRepository repository;
+    private final ModelStatsRepository modelStatsRepository;
 
     @Autowired
-    public ModelService(ModelRepository modelRepository) {
-        this.modelRepository = modelRepository;
+    public ModelService(ModelRepository modelRepository, ModelStatsRepository modelStatsRepository) {
+        this.repository = modelRepository;
+        this.modelStatsRepository = modelStatsRepository;
     }
 
     public Page<Model> findAllModelsInPages(Pageable page) {
-        return modelRepository.findAll(page);
+        return repository.findAll(page);
     }
 
     public Model findModelById(Long id) {
-        return modelRepository.findModelById(id)
+        return repository.findModelById(id)
                 .orElseThrow(() -> new ApiRequestException("Model not found.", HttpStatus.NOT_FOUND));
     }
 
     public Model addModel(Model model) {
-        return modelRepository.save(model);
+        return repository.save(model);
     }
 
     @Transactional
@@ -39,11 +42,14 @@ public class ModelService {
         modelToEdit.setName(model.getName());
         modelToEdit.setInnerName(model.getInnerName());
         modelToEdit.setType(model.getType());
-        return modelRepository.save(model);
+        return repository.save(model);
     }
 
     @Transactional
     public void deleteModel(Long id) {
-        modelRepository.deleteModelById(id);
+        if (!modelStatsRepository.findAllByModelId(id).isEmpty()) {
+            modelStatsRepository.deleteAllByModelId(id);
+        }
+        repository.deleteModelById(id);
     }
 }

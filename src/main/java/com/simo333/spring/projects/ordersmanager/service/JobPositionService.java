@@ -1,6 +1,7 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
 import com.simo333.spring.projects.ordersmanager.data.JobPositionRepository;
+import com.simo333.spring.projects.ordersmanager.data.ModelStatsRepository;
 import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import com.simo333.spring.projects.ordersmanager.model.JobPosition;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import java.util.List;
 public class JobPositionService {
 
     private final JobPositionRepository repository;
+    private final ModelStatsRepository modelStatsRepo;
 
     @Autowired
-    public JobPositionService(JobPositionRepository repository) {
+    public JobPositionService(JobPositionRepository repository, ModelStatsRepository modelStatsRepo) {
         this.repository = repository;
+        this.modelStatsRepo = modelStatsRepo;
     }
 
     public JobPosition addJobPosition(JobPosition jobPosition) {
@@ -42,6 +45,9 @@ public class JobPositionService {
 
     @Transactional
     public void deleteJobPositionById(Long id) {
+        if (!modelStatsRepo.findAllByJobPositionId(id).isEmpty()) {
+            modelStatsRepo.deleteAllByJobPositionId(id);
+        }
         repository.deleteJobPositionById(id);
     }
 }
