@@ -32,15 +32,4 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
     }
 
-    //Trash version
-/*    @ExceptionHandler(value = EntityNotFoundException.class)
-    public ResponseEntity<Object> handleMethodArgumentNotValidException(EntityNotFoundException e) {
-        ApiException apiException = new ApiException(
-                "Nie znaleziono zasobu",
-                HttpStatus.NOT_FOUND,
-                ZonedDateTime.now(ZoneId.systemDefault())
-        );
-        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
-    }*/
-
 }
