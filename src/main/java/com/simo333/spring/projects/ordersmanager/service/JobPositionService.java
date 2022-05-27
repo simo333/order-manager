@@ -51,7 +51,7 @@ public class JobPositionService {
         if (!modelStatsRepository.findAllByJobPositionId(id).isEmpty()) {
             modelStatsRepository.deleteAllByJobPositionId(id);
         }
-        if(!employeeRepository.findAllByJobPositionId(id).isEmpty()) {
+        if (!employeeRepository.findAllByJobPositionId(id).isEmpty()) {
             employeeRepository.deleteAllByJobPositionId(id);
         }
         repository.deleteJobPositionById(id);
