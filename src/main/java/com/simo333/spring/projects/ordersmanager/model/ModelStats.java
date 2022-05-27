@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
@@ -25,10 +26,11 @@ public class ModelStats {
     @ManyToOne
     @JoinColumn(updatable = false)
     private JobPosition jobPosition;
+    @Digits(message = "To pole musi zawierać liczbę", integer = 3, fraction = 2)
     @NotNull(message = "To pole nie może być puste")
     @Positive(message = "Stawka musi być liczbą dodatnią")
     private BigDecimal rate;
     @NotNull(message = "To pole nie może być puste")
-    @Positive(message = "Czas jest wymagany")
+    @Positive(message = "Czas musi być wartością dodatnią")
     private int timeToComplete;
 }

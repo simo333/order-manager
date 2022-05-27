@@ -58,7 +58,7 @@ public class ModelStatsController {
         ModelStats editedModelStats = service.updateModelStats(modelStats);
         return new ResponseEntity<>(editedModelStats, HttpStatus.OK);
     }
-//TODO test deletion job position which has some model stats
+
     @DeleteMapping("/{modelId}/{jobPositionId}")
     public ResponseEntity<?> delete(@PathVariable("modelId") Long modelId,
                                     @PathVariable("jobPositionId") Long jobPositionId) {

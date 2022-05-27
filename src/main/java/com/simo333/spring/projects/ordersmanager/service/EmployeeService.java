@@ -50,7 +50,6 @@ public class EmployeeService {
         return repository.save(employee);
     }
 
-    //TODO add doing sth while removing job position
     @Transactional
     public void deleteEmployee(Long id) {
         repository.deleteEmployeeById(id);

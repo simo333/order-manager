@@ -1,12 +1,16 @@
 package com.simo333.spring.projects.ordersmanager.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -31,5 +35,7 @@ public class ApiExceptionHandler {
         e.getBindingResult().getFieldErrors().forEach(error -> errorsMap.put(error.getField(), error.getDefaultMessage()));
         return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
     }
+
+    //TODO fix HttpMessageNotReadableException while required param is string instead of bigdecimal (ModelStats.rate)
 
 }

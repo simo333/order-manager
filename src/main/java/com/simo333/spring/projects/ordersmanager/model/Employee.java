@@ -1,6 +1,9 @@
 package com.simo333.spring.projects.ordersmanager.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -39,12 +42,13 @@ public class Employee {
     private String country;
     @NotNull(message = "To pole nie może być puste")
     @Pattern(regexp = "(\\+\\d{2})?\\d{9}",
-             message = "Numer telefonu może zawierać numer kierunkowy oraz musi zawierać 9 cyfr")
+            message = "Numer telefonu może zawierać numer kierunkowy oraz musi zawierać 9 cyfr")
     private String phoneNumber;
     @Past(message = "Data zawarcia umowy musi być z przeszłości")
     private Date contractBeginning;
     @Future(message = "Data zakończenia umowy musi być z przyszłości")
     private Date contractExpiration;
+    @NotNull(message = "Pracownik musi mieć przypisane stanowisko")
     @ManyToOne
     private JobPosition jobPosition;
 

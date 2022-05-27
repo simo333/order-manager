@@ -1,5 +1,6 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
+import com.simo333.spring.projects.ordersmanager.data.EmployeeRepository;
 import com.simo333.spring.projects.ordersmanager.data.JobPositionRepository;
 import com.simo333.spring.projects.ordersmanager.data.ModelStatsRepository;
 import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
@@ -15,12 +16,14 @@ import java.util.List;
 public class JobPositionService {
 
     private final JobPositionRepository repository;
-    private final ModelStatsRepository modelStatsRepo;
+    private final ModelStatsRepository modelStatsRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public JobPositionService(JobPositionRepository repository, ModelStatsRepository modelStatsRepo) {
+    public JobPositionService(JobPositionRepository repository, ModelStatsRepository modelStatsRepo, EmployeeRepository employeeRepository) {
         this.repository = repository;
-        this.modelStatsRepo = modelStatsRepo;
+        this.modelStatsRepository = modelStatsRepo;
+        this.employeeRepository = employeeRepository;
     }
 
     public JobPosition addJobPosition(JobPosition jobPosition) {
@@ -45,8 +48,11 @@ public class JobPositionService {
 
     @Transactional
     public void deleteJobPositionById(Long id) {
-        if (!modelStatsRepo.findAllByJobPositionId(id).isEmpty()) {
-            modelStatsRepo.deleteAllByJobPositionId(id);
+        if (!modelStatsRepository.findAllByJobPositionId(id).isEmpty()) {
+            modelStatsRepository.deleteAllByJobPositionId(id);
+        }
+        if(!employeeRepository.findAllByJobPositionId(id).isEmpty()) {
+            employeeRepository.deleteAllByJobPositionId(id);
         }
         repository.deleteJobPositionById(id);
     }
