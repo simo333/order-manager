@@ -54,6 +54,7 @@ public class JobPositionService {
         if (!employeeRepository.findAllByJobPositionId(id).isEmpty()) {
             employeeRepository.deleteAllByJobPositionId(id);
         }
+
         repository.deleteJobPositionById(id);
     }
 }
