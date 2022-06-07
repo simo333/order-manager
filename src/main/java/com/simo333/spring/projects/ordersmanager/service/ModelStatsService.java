@@ -29,7 +29,7 @@ public class ModelStatsService {
 
     public List<ModelStats> findAllByModelId(Long id) {
         List<ModelStats> modelStatsList = repository.findAllByModelId(id);
-        if(modelStatsList.isEmpty()) {
+        if (modelStatsList.isEmpty()) {
             throw new ApiRequestException("Model statistics not found for given model id.", HttpStatus.NOT_FOUND);
         }
         return repository.findAllByModelId(id);
@@ -37,7 +37,7 @@ public class ModelStatsService {
 
     public List<ModelStats> findAllByJobPositionId(Long id) {
         List<ModelStats> modelStatsList = repository.findAllByJobPositionId(id);
-        if(modelStatsList.isEmpty()) {
+        if (modelStatsList.isEmpty()) {
             throw new ApiRequestException("Model statistics not found for given job position id.", HttpStatus.NOT_FOUND);
         }
         return repository.findAllByJobPositionId(id);
@@ -53,7 +53,7 @@ public class ModelStatsService {
     @Transactional
     public ModelStats updateModelStats(ModelStats modelStats) {
         ModelStats modelStatsToEdit = findOneByModelIdAndJobPositionId(
-                        modelStats.getModel().getId(), modelStats.getJobPosition().getId());
+                modelStats.getModel().getId(), modelStats.getJobPosition().getId());
         modelStatsToEdit.setRate(modelStats.getRate());
         modelStatsToEdit.setTimeToComplete(modelStats.getTimeToComplete());
         return repository.save(modelStatsToEdit);
