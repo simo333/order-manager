@@ -44,7 +44,7 @@ public class FurnitureTypeService {
 
     @Transactional
     public void deleteFurnitureType(Long id) {
-        if(!modelRepository.findAllByTypeId(id).isEmpty()) {
+        if (!modelRepository.findAllByTypeId(id).isEmpty()) {
             modelRepository.deleteAllByTypeId(id);
         }
         repository.deleteFurnitureTypeById(id);

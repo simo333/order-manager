@@ -36,7 +36,7 @@ public class ModelStatsController {
 
     @GetMapping("/{modelId}/{jobPositionId}")
     public ResponseEntity<ModelStats> findByModelIdAndJobPositionId(@PathVariable("modelId") Long modelId,
-                                                                       @PathVariable("jobPositionId") Long jobPositionId) {
+                                                                    @PathVariable("jobPositionId") Long jobPositionId) {
         ModelStats modelStats = service.findOneByModelIdAndJobPositionId(modelId, jobPositionId);
         return new ResponseEntity<>(modelStats, HttpStatus.OK);
     }
