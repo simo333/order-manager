@@ -26,6 +26,4 @@ public class OrderedModel {
     @Size(min = 1, max = 100, message = "Opis materiału musi zawierać od 1 do 100 znaków")
     private String material;
     private String specialDesign;
-
-    //TODO methods to summarize ordered models
 }
