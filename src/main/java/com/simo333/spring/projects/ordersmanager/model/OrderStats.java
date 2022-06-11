@@ -46,7 +46,7 @@ public class OrderStats {
     private String deliveryCity;
 
     @NotNull(message = "Kod pocztowy jest wymagany")
-    @Pattern(regexp = "\\d{2}-\\d{3}", message = "Kod pocztowy musi być w formacie 00-000")
+    @Pattern(regexp = "^\\d{2}-\\d{3}$", message = "Kod pocztowy musi być w formacie 00-000")
     private String deliveryZip;
 
     @NotNull(message = "Państwo jest wymagane")

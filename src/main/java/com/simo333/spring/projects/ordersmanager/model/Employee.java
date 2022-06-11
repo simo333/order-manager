@@ -32,7 +32,7 @@ public class Employee {
     @Size(min = 3, max = 100, message = "Nazwa ulicy musi zawierać od 3 do 100 znaków")
     private String street;
     @NotNull(message = "To pole nie może być puste")
-    @Pattern(regexp = "\\d{2}-\\d{3}", message = "Kod pocztowy musi być w formacie 00-000")
+    @Pattern(regexp = "^\\d{2}-\\d{3}$", message = "Kod pocztowy musi być w formacie 00-000")
     private String zipCode;
     @NotNull(message = "To pole nie może być puste")
     @Size(min = 3, max = 50, message = "Nazwa miejscowości musi zawierać od 3 do 50 znaków")
@@ -41,7 +41,7 @@ public class Employee {
     @Size(min = 2, max = 50, message = "Nazwa państwa musi zawierać od 2 do 50 znaków")
     private String country;
     @NotNull(message = "To pole nie może być puste")
-    @Pattern(regexp = "(\\+\\d{2})?\\d{9}",
+    @Pattern(regexp = "^(\\+\\d{2})?\\d{9}$",
             message = "Numer telefonu może zawierać numer kierunkowy oraz musi zawierać 9 cyfr")
     private String phoneNumber;
     @Past(message = "Data zawarcia umowy musi być z przeszłości")
