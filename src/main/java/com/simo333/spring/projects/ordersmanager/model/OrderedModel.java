@@ -20,6 +20,7 @@ public class OrderedModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "Model jest wymagany")
     @ManyToOne
     private Model model;
     @NotNull
