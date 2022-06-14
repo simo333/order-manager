@@ -53,6 +53,7 @@ public class OrderStats {
     @Size(min = 3, max = 100, message = "Nazwa państwa musi zawierać od 3 do 100 znaków")
     private String deliveryCountry;
 
+    @NotNull(message = "Zamówienie musi zawierać conajmniej jeden model")
     @OneToMany
     private List<OrderedModel> orderedModels = new ArrayList<>();
 
