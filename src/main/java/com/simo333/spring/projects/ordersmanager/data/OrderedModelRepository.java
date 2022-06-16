@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface OrderedModelRepository extends JpaRepository<OrderedModel, Long> {
     Optional<OrderedModel> findOrderedModelById(Long id);
 
+    Optional<OrderedModel> findAllByOrderStatsId(Long id);
+
     void deleteOrderedModelById(Long id);
 
 }

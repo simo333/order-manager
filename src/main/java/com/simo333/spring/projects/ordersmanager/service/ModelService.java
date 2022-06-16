@@ -45,6 +45,8 @@ public class ModelService {
         return repository.save(model);
     }
 
+
+    //TODO decide whether to delete ordered models and orders while deleting models or not
     @Transactional
     public void deleteModel(Long id) {
         if (!modelStatsRepository.findAllByModelId(id).isEmpty()) {
