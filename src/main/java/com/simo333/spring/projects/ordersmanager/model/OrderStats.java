@@ -53,9 +53,9 @@ public class OrderStats {
     @Size(min = 3, max = 100, message = "Nazwa państwa musi zawierać od 3 do 100 znaków")
     private String deliveryCountry;
 
-    //TODO Add deleting ordered models while deleting order containing those ordered models
+    //TODO Add deleting ordered models while deleting order containing those ordered models (error when deleted order with ordered models)
     @NotNull(message = "Zamówienie musi zawierać conajmniej jeden model ")
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderedModel> orderedModels = new ArrayList<>();
 
     @PrePersist
