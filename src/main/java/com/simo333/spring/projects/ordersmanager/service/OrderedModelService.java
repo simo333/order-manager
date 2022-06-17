@@ -1,7 +1,9 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
+import com.simo333.spring.projects.ordersmanager.data.OrderStatsRepository;
 import com.simo333.spring.projects.ordersmanager.data.OrderedModelRepository;
 import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
+import com.simo333.spring.projects.ordersmanager.model.OrderStats;
 import com.simo333.spring.projects.ordersmanager.model.OrderedModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,13 +16,17 @@ import java.util.List;
 public class OrderedModelService {
 
     private final OrderedModelRepository repository;
+    private final OrderStatsRepository orderRepository;
 
     @Autowired
-    public OrderedModelService(OrderedModelRepository repository) {
+    public OrderedModelService(OrderedModelRepository repository, OrderStatsRepository orderRepository) {
         this.repository = repository;
+        this.orderRepository = orderRepository;
     }
 
     public OrderedModel addOrderedModel(OrderedModel orderedModel) {
+        orderRepository.findOrderStatsById(orderedModel.getOrder().getId())
+                .orElseThrow(() -> new ApiRequestException("Order of given id does not exist", HttpStatus.NOT_FOUND));
         return repository.save(orderedModel);
     }
 
