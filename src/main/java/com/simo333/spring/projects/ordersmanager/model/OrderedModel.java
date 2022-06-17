@@ -23,8 +23,11 @@ public class OrderedModel {
     @NotNull(message = "Model jest wymagany")
     @ManyToOne
     private Model model;
-    @NotNull
+    @NotNull(message = "Materiał jest wymagany")
     @Size(min = 1, max = 100, message = "Opis materiału musi zawierać od 1 do 100 znaków")
     private String material;
     private String specialDesign;
+    @NotNull(message = "Id zamówienia jest wymagane")
+    @ManyToOne
+    private OrderStats order;
 }

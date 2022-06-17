@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.type.ZonedDateTimeType;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -55,8 +55,7 @@ public class OrderStats {
 
     //TODO Add deleting ordered models while deleting order containing those ordered models
     @NotNull(message = "Zamówienie musi zawierać conajmniej jeden model ")
-    @OneToMany
-    @JoinColumn(name = "ordered_models_id", table = "order_stats_ordered_models")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<OrderedModel> orderedModels = new ArrayList<>();
 
     @PrePersist
