@@ -51,6 +51,7 @@ public class OrderStatsService {
 
     @Transactional
     public void deleteOrderStats(Long id) {
+        orderedModelRepository.deleteAllByOrderId(id);
         repository.deleteOrderStatsById(id);
     }
 }

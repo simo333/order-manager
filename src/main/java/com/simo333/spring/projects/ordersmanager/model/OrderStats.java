@@ -55,7 +55,7 @@ public class OrderStats {
 
     //TODO Add deleting ordered models while deleting order containing those ordered models (error when deleted order with ordered models)
     @NotNull(message = "Zamówienie musi zawierać conajmniej jeden model ")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
     private List<OrderedModel> orderedModels = new ArrayList<>();
 
     @PrePersist
