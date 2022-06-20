@@ -22,14 +22,20 @@ public class OrderStatsService {
         this.orderedModelRepository = orderedModelRepository;
     }
 
-
     public List<OrderStats> findAllOrders() {
         return repository.findAll();
     }
 
-    public OrderStats findOrderStatsById(Long id) {
+    //TODO manually adding ordered models to order's list
+/*    public OrderStats findOrderStatsById(Long id) {
         return repository.findOrderStatsById(id).orElseThrow(
                 () -> new ApiRequestException("Order statistics not found for given id", HttpStatus.NOT_FOUND));
+    }*/
+    public OrderStats findOrderStatsById(Long id) {
+        OrderStats orderStats = repository.findOrderStatsById(id).orElseThrow(
+                () -> new ApiRequestException("Order statistics not found for given id", HttpStatus.NOT_FOUND));
+        System.out.println("Ordered Models: " + orderStats.getOrderedModels());
+        return orderStats;
     }
 
 
