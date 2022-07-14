@@ -63,7 +63,7 @@ public class OrdersManagerApplication {
             employee.setCountry("Polska");
             employee.setPhoneNumber("123456789");
             employee.setContractBeginning(Date.from(LocalDate.of(2020, Month.APRIL, 2).atStartOfDay().toInstant(ZoneOffset.of("+1"))));
-            employee.setContractExpiration(Date.from(LocalDate.of(2022, Month.JUNE, 22).atStartOfDay().toInstant(ZoneOffset.of("+1"))));
+            employee.setContractExpiration(Date.from(LocalDate.of(2022, Month.SEPTEMBER, 22).atStartOfDay().toInstant(ZoneOffset.of("+1"))));
             employee.setJobPosition(jobPositionService.findJobPositionById(1L));
             employeeService.addEmployee(employee);
         });
