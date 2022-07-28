@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -39,7 +40,7 @@ public class OrderStatsService {
     }
 
 
-    public OrderStats addOrderStats(OrderStats orderStats) {
+    public OrderStats addOrderStats(@Valid OrderStats orderStats) {
         return repository.save(orderStats);
     }
 

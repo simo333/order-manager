@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class ModelStatsService {
         this.repository = repository;
     }
 
-    public ModelStats addModelStats(ModelStats modelStats) {
+    public ModelStats addModelStats(@Valid ModelStats modelStats) {
         return repository.save(modelStats);
     }
 

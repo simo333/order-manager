@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -26,7 +27,7 @@ public class JobPositionService {
         this.employeeRepository = employeeRepository;
     }
 
-    public JobPosition addJobPosition(JobPosition jobPosition) {
+    public JobPosition addJobPosition(@Valid JobPosition jobPosition) {
         return repository.save(jobPosition);
     }
 

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -24,7 +25,7 @@ public class OrderedModelService {
         this.orderRepository = orderRepository;
     }
 
-    public OrderedModel addOrderedModel(OrderedModel orderedModel) {
+    public OrderedModel addOrderedModel(@Valid OrderedModel orderedModel) {
         orderRepository.findOrderStatsById(orderedModel.getOrder().getId())
                 .orElseThrow(() -> new ApiRequestException("Order of given id does not exist", HttpStatus.NOT_FOUND));
         return repository.save(orderedModel);

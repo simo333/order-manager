@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
+
 @Service
 public class ModelService {
 
@@ -32,7 +34,7 @@ public class ModelService {
                 .orElseThrow(() -> new ApiRequestException("Model not found.", HttpStatus.NOT_FOUND));
     }
 
-    public Model addModel(Model model) {
+    public Model addModel(@Valid Model model) {
         return repository.save(model);
     }
 

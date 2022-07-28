@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -23,7 +24,7 @@ public class FurnitureTypeService {
         this.modelRepository = modelRepository;
     }
 
-    public FurnitureType addFurnitureType(FurnitureType type) {
+    public FurnitureType addFurnitureType(@Valid FurnitureType type) {
         return repository.save(type);
     }
 
