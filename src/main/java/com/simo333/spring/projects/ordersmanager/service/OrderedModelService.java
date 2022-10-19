@@ -1,57 +1,55 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
-import com.simo333.spring.projects.ordersmanager.data.OrderStatsRepository;
-import com.simo333.spring.projects.ordersmanager.data.OrderedModelRepository;
-import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
-import com.simo333.spring.projects.ordersmanager.model.OrderStats;
 import com.simo333.spring.projects.ordersmanager.model.OrderedModel;
+import com.simo333.spring.projects.ordersmanager.repository.OrderedModelRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
+@Slf4j
 public class OrderedModelService {
 
     private final OrderedModelRepository repository;
-    private final OrderStatsRepository orderRepository;
 
     @Autowired
-    public OrderedModelService(OrderedModelRepository repository, OrderStatsRepository orderRepository) {
+    public OrderedModelService(OrderedModelRepository repository) {
         this.repository = repository;
-        this.orderRepository = orderRepository;
     }
 
-    public OrderedModel addOrderedModel(@Valid OrderedModel orderedModel) {
-        orderRepository.findOrderStatsById(orderedModel.getOrder().getId())
-                .orElseThrow(() -> new ApiRequestException("Order of given id does not exist", HttpStatus.NOT_FOUND));
+    @Transactional
+    public OrderedModel save(OrderedModel orderedModel) {
+        log.info("Saving ordered model: {}", orderedModel);
         return repository.save(orderedModel);
     }
 
-    public List<OrderedModel> findAllOrderedModels() {
+    public List<OrderedModel> findAll() {
         return repository.findAll();
     }
 
-    public OrderedModel findOrderedModelById(Long id) {
-        return repository.findOrderedModelById(id)
-                .orElseThrow(() -> new ApiRequestException("Model not found for given id", HttpStatus.NOT_FOUND));
+    public OrderedModel getOne(Long id) {
+        return repository.findById(id).orElseThrow(() -> {
+            log.error("Ordered model with id '{}' not found.", id);
+            throw new ResourceNotFoundException("Model not found for given id");
+        });
     }
 
     @Transactional
-    public OrderedModel updateOrderedModel(OrderedModel orderedModel) {
-        OrderedModel orderedModelToEdit = findOrderedModelById(orderedModel.getId());
-        orderedModelToEdit.setModel(orderedModel.getModel());
-        orderedModelToEdit.setMaterial(orderedModel.getMaterial());
-        orderedModelToEdit.setSpecialDesign(orderedModel.getSpecialDesign());
+    public OrderedModel update(OrderedModel orderedModel) {
+        getOne(orderedModel.getId());
+        log.info("Updating ordered model with id '{}'", orderedModel.getId());
         return repository.save(orderedModel);
     }
 
     @Transactional
-    public void deleteOrderedModel(Long id) {
-        repository.deleteOrderedModelById(id);
+    public void deleteById(Long id) {
+        log.info("Deleting ordered model with id '{}'", id);
+        repository.deleteById(id);
     }
 
 }

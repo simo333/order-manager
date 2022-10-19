@@ -26,26 +26,27 @@ public class OrderStatsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderStats> findById(@PathVariable("id") Long id) {
-        OrderStats orderStats = service.findOrderStatsById(id);
+    public ResponseEntity<OrderStats> findById(@PathVariable Long id) {
+        OrderStats orderStats = service.getOne(id);
         return new ResponseEntity<>(orderStats, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<OrderStats> add(@Valid @RequestBody OrderStats orderStats) {
-        OrderStats newOrderStats = service.addOrderStats(orderStats);
+    public ResponseEntity<OrderStats> add(@RequestBody @Valid OrderStats orderStats) {
+        OrderStats newOrderStats = service.save(orderStats);
         return new ResponseEntity<>(newOrderStats, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<OrderStats> update(@Valid @RequestBody OrderStats orderStats) {
-        OrderStats actualOrderStats = service.updateOrderStats(orderStats);
-        return new ResponseEntity<>(actualOrderStats, HttpStatus.CREATED);
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderStats> update(@PathVariable Long id, @RequestBody @Valid OrderStats orderStats) {
+        orderStats.setId(id);
+        OrderStats updated = service.update(orderStats);
+        return new ResponseEntity<>(updated, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        service.deleteOrderStats(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

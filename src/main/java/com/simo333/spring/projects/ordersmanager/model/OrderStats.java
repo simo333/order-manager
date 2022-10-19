@@ -12,15 +12,15 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "orders")
 public class OrderStats {
 
     @Id
@@ -29,34 +29,32 @@ public class OrderStats {
 
     private ZonedDateTime placedAt;
 
-    @NotNull(message = "Termin dostawy jest wymagany")
-    @Future(message = "Termin zamówienia musi odnosić się do przyszłości")
-    private Date deadlineDate;
+    @NotNull
+    @Future
+    private ZonedDateTime deadlineDate;
 
-    @NotNull(message = "Nazwa dostawy jest wymagana")
-    @Size(min = 3, max = 100, message = "Nazwa musi zawierać od 3 do 100 znaków")
+    @NotNull
+    @Size(min = 3, max = 100)
     private String deliveryName;
 
-    @NotNull(message = "Ulica jest wymagana")
-    @Size(min = 3, max = 100, message = "Nazwa ulicy musi zawierać od 3 do 100 znaków")
+    @NotNull
+    @Size(min = 3, max = 100)
     private String deliveryStreet;
 
-    @NotNull(message = "Miejscowość jest wymagana")
-    @Size(min = 3, max = 100, message = "Nazwa miejscowości musi zawierać od 3 do 100 znaków")
+    @NotNull
+    @Size(min = 3, max = 100)
     private String deliveryCity;
 
-    @NotNull(message = "Kod pocztowy jest wymagany")
-    @Pattern(regexp = "^\\d{2}-\\d{3}$", message = "Kod pocztowy musi być w formacie 00-000")
+    @NotNull
+    @Pattern(regexp = "^\\d{2}-\\d{3}$")
     private String deliveryZip;
 
-    @NotNull(message = "Państwo jest wymagane")
-    @Size(min = 3, max = 100, message = "Nazwa państwa musi zawierać od 3 do 100 znaków")
+    @NotNull
+    @Size(min = 3, max = 100)
     private String deliveryCountry;
 
-    //TODO Add deleting ordered models while deleting order containing those ordered models (error when deleted order with ordered models)
-    @NotNull(message = "Zamówienie musi zawierać conajmniej jeden model ")
-    @OneToMany
-    private List<OrderedModel> orderedModels = new ArrayList<>();
+    @OneToMany(mappedBy = "id")
+    private Set<OrderedModel> orderedModels = new HashSet<>();
 
     @PrePersist
     void placedAt() {

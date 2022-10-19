@@ -1,11 +1,11 @@
 package com.simo333.spring.projects.ordersmanager;
 
 import com.simo333.spring.projects.ordersmanager.model.Employee;
+import com.simo333.spring.projects.ordersmanager.model.FurnitureType;
 import com.simo333.spring.projects.ordersmanager.model.JobPosition;
 import com.simo333.spring.projects.ordersmanager.model.Model;
-import com.simo333.spring.projects.ordersmanager.model.FurnitureType;
-import com.simo333.spring.projects.ordersmanager.service.FurnitureTypeService;
 import com.simo333.spring.projects.ordersmanager.service.EmployeeService;
+import com.simo333.spring.projects.ordersmanager.service.FurnitureTypeService;
 import com.simo333.spring.projects.ordersmanager.service.JobPositionService;
 import com.simo333.spring.projects.ordersmanager.service.ModelService;
 import org.springframework.boot.CommandLineRunner;
@@ -15,8 +15,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -37,7 +35,7 @@ public class OrdersManagerApplication {
         JobPosition position3 = new JobPosition();
         position3.setName("Szwaczka");
         List<JobPosition> jobPositionList = List.of(position1, position2, position3);
-        jobPositionList.forEach(jobPositionService::addJobPosition);
+        jobPositionList.forEach(jobPositionService::save);
 
         FurnitureType type1 = new FurnitureType();
         type1.setName("Sofa");
@@ -50,30 +48,30 @@ public class OrdersManagerApplication {
         FurnitureType type5 = new FurnitureType();
         type5.setName("Łóżko sypialniane");
         List<FurnitureType> typeList = List.of(type1, type2, type3, type4, type5);
-        typeList.forEach(furnitureTypeService::addFurnitureType);
+        typeList.forEach(furnitureTypeService::save);
 
         IntStream.rangeClosed(1, 20).forEach(i -> {
             Employee employee = new Employee();
             employee.setName("Imię" + i);
             employee.setLastName("Nazwisko" + i);
-            employee.setDateOfBirth(Date.from(LocalDate.of(1980 + i, Month.DECEMBER, 2 + i).atStartOfDay().toInstant(ZoneOffset.of("+1"))));
+            employee.setDateOfBirth(LocalDate.of(1980 + i, Month.DECEMBER, 2 + i));
             employee.setStreet("ul. Leśna 2");
             employee.setCity("Gębice");
             employee.setZipCode("88-330");
             employee.setCountry("Polska");
             employee.setPhoneNumber("123456789");
-            employee.setContractBeginning(Date.from(LocalDate.of(2020, Month.APRIL, 2).atStartOfDay().toInstant(ZoneOffset.of("+1"))));
-            employee.setContractExpiration(Date.from(LocalDate.of(2022, Month.SEPTEMBER, 22).atStartOfDay().toInstant(ZoneOffset.of("+1"))));
-            employee.setJobPosition(jobPositionService.findJobPositionById(1L));
-            employeeService.addEmployee(employee);
+            employee.setContractBeginning(LocalDate.of(2020, Month.APRIL, 2));
+            employee.setContractExpiration(LocalDate.now().plusMonths(12));
+            employee.setJobPosition(jobPositionService.getOne(1L));
+            employeeService.save(employee);
         });
 
         return args -> IntStream.rangeClosed(1, 100).forEach(i -> {
             Model model = new Model();
             model.setName("Model" + i);
             model.setInnerName("InnerName" + i);
-            model.setType(furnitureTypeService.findFurnitureTypeById(1L));
-            modelService.addModel(model);
+            model.setType(furnitureTypeService.getOne(1L));
+            modelService.save(model);
         });
     }
 
