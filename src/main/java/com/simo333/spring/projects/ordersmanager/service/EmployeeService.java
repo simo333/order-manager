@@ -1,16 +1,18 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
-import com.simo333.spring.projects.ordersmanager.data.EmployeeRepository;
-import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
+import com.simo333.spring.projects.ordersmanager.repository.EmployeeRepository;
 import com.simo333.spring.projects.ordersmanager.model.Employee;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
+@Slf4j
 public class EmployeeService {
 
     private final EmployeeRepository repository;
@@ -21,37 +23,33 @@ public class EmployeeService {
     }
 
     public Page<Employee> findAllEmployeesInPages(Pageable page) {
+        log.info("Fetching Employees. {}", page);
         return repository.findAll(page);
     }
 
-    public Employee findEmployeeById(Long id) {
-        return repository.findEmployeeById(id)
-                .orElseThrow(() -> new ApiRequestException("Employee not found.", HttpStatus.NOT_FOUND));
+    public Employee getOne(Long id) {
+        return repository.findById(id).orElseThrow(() -> {
+            log.error("Employee with id '{}' not found.", id);
+            throw new ResourceNotFoundException("Employee not found. For id: " + id);
+        });
     }
 
-    public Employee addEmployee(Employee employee) {
+    @Transactional
+    public Employee save(Employee employee) {
+        log.info("Saving employee: {}", employee);
         return repository.save(employee);
     }
 
     @Transactional
-    public Employee updateEmployee(Employee employee) {
-        Employee employeeToEdit = findEmployeeById(employee.getId());
-        employeeToEdit.setCity(employee.getCity());
-        employeeToEdit.setContractBeginning(employee.getContractBeginning());
-        employeeToEdit.setContractExpiration(employee.getContractExpiration());
-        employeeToEdit.setCountry(employee.getCountry());
-        employeeToEdit.setDateOfBirth(employee.getDateOfBirth());
-        employeeToEdit.setLastName(employee.getLastName());
-        employeeToEdit.setName(employee.getName());
-        employeeToEdit.setPhoneNumber(employee.getPhoneNumber());
-        employeeToEdit.setStreet(employee.getStreet());
-        employeeToEdit.setZipCode(employee.getZipCode());
-        employeeToEdit.setJobPosition(employee.getJobPosition());
+    public Employee update(Employee employee) {
+        getOne(employee.getId());
+        log.info("Updating employee with id '{}'", employee.getId());
         return repository.save(employee);
     }
 
     @Transactional
-    public void deleteEmployee(Long id) {
-        repository.deleteEmployeeById(id);
+    public void deleteById(Long id) {
+        log.info("Deleting employee with id '{}'", id);
+        repository.deleteById(id);
     }
 }

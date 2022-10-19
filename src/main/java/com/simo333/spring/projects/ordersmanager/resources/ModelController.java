@@ -28,26 +28,27 @@ public class ModelController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Model> findById(@PathVariable("id") Long id) {
-        Model actualModel = service.findModelById(id);
+    ResponseEntity<Model> findById(@PathVariable Long id) {
+        Model actualModel = service.getOne(id);
         return new ResponseEntity<>(actualModel, HttpStatus.OK);
     }
 
     @PostMapping
-    ResponseEntity<Model> add(@Valid @RequestBody Model model) {
-        Model newModel = service.addModel(model);
+    ResponseEntity<Model> add(@RequestBody @Valid  Model model) {
+        Model newModel = service.save(model);
         return new ResponseEntity<>(newModel, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    ResponseEntity<?> update(@Valid @RequestBody Model model) {
-        Model actualModel = service.updateModel(model);
-        return new ResponseEntity<>(actualModel, HttpStatus.OK);
+    @PutMapping("/{id}")
+    ResponseEntity<Model> update(@PathVariable Long id, @RequestBody @Valid Model model) {
+        model.setId(id);
+        Model updated = service.update(model);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        service.deleteModel(id);
+    ResponseEntity<?> delete(@PathVariable Long id) {
+        service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

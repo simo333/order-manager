@@ -21,31 +21,32 @@ public class OrderedModelController {
 
     @GetMapping
     public ResponseEntity<List<OrderedModel>> findAll() {
-        List<OrderedModel> orderedModels = service.findAllOrderedModels();
+        List<OrderedModel> orderedModels = service.findAll();
         return new ResponseEntity<>(orderedModels, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderedModel> findByOrderedModelId(@PathVariable("id") Long id) {
-        OrderedModel orderedModel = service.findOrderedModelById(id);
+    public ResponseEntity<OrderedModel> findByOrderedModelId(@PathVariable Long id) {
+        OrderedModel orderedModel = service.getOne(id);
         return new ResponseEntity<>(orderedModel, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<OrderedModel> add(@Valid @RequestBody OrderedModel orderedModel) {
-        OrderedModel newOrderedModel = service.addOrderedModel(orderedModel);
+    public ResponseEntity<OrderedModel> add(@RequestBody @Valid OrderedModel orderedModel) {
+        OrderedModel newOrderedModel = service.save(orderedModel);
         return new ResponseEntity<>(newOrderedModel, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<OrderedModel> update(@Valid @RequestBody OrderedModel orderedModel) {
-        OrderedModel newOrderedModel = service.updateOrderedModel(orderedModel);
-        return new ResponseEntity<>(newOrderedModel, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderedModel> update(@PathVariable Long id, @RequestBody @Valid OrderedModel orderedModel) {
+        orderedModel.setId(id);
+        OrderedModel updated = service.update(orderedModel);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        service.deleteOrderedModel(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

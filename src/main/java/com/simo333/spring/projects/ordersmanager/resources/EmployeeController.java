@@ -30,26 +30,27 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable("id") Long id) {
-        Employee actualEmployee = service.findEmployeeById(id);
+    public ResponseEntity<Employee> findById(@PathVariable Long id) {
+        Employee actualEmployee = service.getOne(id);
         return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Employee> add(@Valid @RequestBody Employee employee) {
-        Employee newEmployee = service.addEmployee(employee);
+    public ResponseEntity<Employee> add(@RequestBody @Valid Employee employee) {
+        Employee newEmployee = service.save(employee);
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Employee> update(@Valid @RequestBody Employee employee) {
-        Employee actualEmployee = service.updateEmployee(employee);
-        return new ResponseEntity<>(actualEmployee, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody @Valid Employee employee) {
+        employee.setId(id);
+        Employee updated = service.update(employee);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        service.deleteEmployee(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
