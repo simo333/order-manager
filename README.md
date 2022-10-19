@@ -1,7 +1,7 @@
 # Orders Manager
 Web application that manages production company. It manages products, employees, orders etc. Based on true production company.
 
-**Back-end side repository.**
+**Back-end side repository. Link to front-end repo: https://github.com/simo333/orders-manager-app**
 
 ### FEATURES:
 * Manage employees
@@ -15,7 +15,7 @@ Web application that manages production company. It manages products, employees,
 * Angular 13 (TypeScript 4.5.5)
 * HTML / CSS (Bootstrap)
 
-### Link to front-end repo: https://github.com/simo333/orders-manager-app
+
 
 Screenshot:
 
