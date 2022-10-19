@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,31 +22,32 @@ public class FurnitureTypeController {
 
     @GetMapping
     ResponseEntity<List<FurnitureType>> findAll() {
-        List<FurnitureType> types = service.findAllFurnitureTypes();
+        List<FurnitureType> types = service.findAll();
         return new ResponseEntity<>(types, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<FurnitureType> findById(@PathVariable("id") Long id) {
-        FurnitureType actualFurnitureType = service.findFurnitureTypeById(id);
+    ResponseEntity<FurnitureType> findById(@PathVariable Long id) {
+        FurnitureType actualFurnitureType = service.getOne(id);
         return new ResponseEntity<>(actualFurnitureType, HttpStatus.OK);
     }
 
     @PostMapping
-    ResponseEntity<FurnitureType> add(@RequestBody FurnitureType type) {
-        FurnitureType newFurnitureType = service.addFurnitureType(type);
+    ResponseEntity<FurnitureType> add(@RequestBody @Valid FurnitureType type) {
+        FurnitureType newFurnitureType = service.save(type);
         return new ResponseEntity<>(newFurnitureType, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    ResponseEntity<FurnitureType> update(@RequestBody FurnitureType type) {
-        FurnitureType actualFurnitureType = service.updateFurnitureType(type);
-        return new ResponseEntity<>(actualFurnitureType, HttpStatus.OK);
+    @PutMapping("/{id}")
+    ResponseEntity<FurnitureType> update(@PathVariable Long id, @RequestBody @Valid FurnitureType type) {
+        type.setId(id);
+        FurnitureType updated = service.update(type);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        service.deleteFurnitureType(id);
+    ResponseEntity<?> delete(@PathVariable Long id) {
+        service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -1,18 +1,19 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
-import com.simo333.spring.projects.ordersmanager.data.OrderStatsRepository;
-import com.simo333.spring.projects.ordersmanager.data.OrderedModelRepository;
-import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
 import com.simo333.spring.projects.ordersmanager.model.OrderStats;
+import com.simo333.spring.projects.ordersmanager.repository.OrderStatsRepository;
+import com.simo333.spring.projects.ordersmanager.repository.OrderedModelRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
+@Slf4j
 public class OrderStatsService {
     private final OrderStatsRepository repository;
     private final OrderedModelRepository orderedModelRepository;
@@ -27,38 +28,30 @@ public class OrderStatsService {
         return repository.findAll();
     }
 
-    //TODO manually adding ordered models to order's list
-/*    public OrderStats findOrderStatsById(Long id) {
-        return repository.findOrderStatsById(id).orElseThrow(
-                () -> new ApiRequestException("Order statistics not found for given id", HttpStatus.NOT_FOUND));
-    }*/
-    public OrderStats findOrderStatsById(Long id) {
-        OrderStats orderStats = repository.findOrderStatsById(id).orElseThrow(
-                () -> new ApiRequestException("Order statistics not found for given id", HttpStatus.NOT_FOUND));
-        System.out.println("Ordered Models: " + orderStats.getOrderedModels());
-        return orderStats;
+    public OrderStats getOne(Long id) {
+        return repository.findById(id).orElseThrow(() -> {
+            log.error("Order with id '{}' not found.", id);
+            throw new ResourceNotFoundException("Order not found for given id");
+        });
     }
 
-
-    public OrderStats addOrderStats(@Valid OrderStats orderStats) {
+    @Transactional
+    public OrderStats save(OrderStats orderStats) {
+        log.info("Saving a new order: {}", orderStats);
         return repository.save(orderStats);
     }
 
     @Transactional
-    public OrderStats updateOrderStats(OrderStats orderStats) {
-        OrderStats orderToEdit = findOrderStatsById(orderStats.getId());
-        orderToEdit.setDeadlineDate(orderStats.getDeadlineDate());
-        orderToEdit.setDeliveryCity(orderStats.getDeliveryCity());
-        orderToEdit.setDeliveryCountry(orderStats.getDeliveryCountry());
-        orderToEdit.setDeliveryName(orderStats.getDeliveryName());
-        orderToEdit.setDeliveryStreet(orderStats.getDeliveryStreet());
-        orderToEdit.setDeliveryZip(orderStats.getDeliveryZip());
+    public OrderStats update(OrderStats orderStats) {
+        getOne(orderStats.getId());
+        log.info("Updating order with id '{}'", orderStats.getId());
         return repository.save(orderStats);
     }
 
     @Transactional
-    public void deleteOrderStats(Long id) {
+    public void deleteById(Long id) {
         orderedModelRepository.deleteAllByOrderId(id);
-        repository.deleteOrderStatsById(id);
+        log.info("Deleting order with id '{}' with all ordered models", id);
+        repository.deleteById(id);
     }
 }

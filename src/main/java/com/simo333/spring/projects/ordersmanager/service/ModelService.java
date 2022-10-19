@@ -1,59 +1,61 @@
 package com.simo333.spring.projects.ordersmanager.service;
 
-import com.simo333.spring.projects.ordersmanager.data.ModelRepository;
-import com.simo333.spring.projects.ordersmanager.data.ModelStatsRepository;
-import com.simo333.spring.projects.ordersmanager.exception.ApiRequestException;
+import com.simo333.spring.projects.ordersmanager.repository.ModelRepository;
+import com.simo333.spring.projects.ordersmanager.repository.ModelWorkingStatsRepository;
 import com.simo333.spring.projects.ordersmanager.model.Model;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
-
 @Service
+@Transactional(readOnly = true)
+@Slf4j
 public class ModelService {
 
     private final ModelRepository repository;
-    private final ModelStatsRepository modelStatsRepository;
+    private final ModelWorkingStatsRepository modelWorkingStatsRepository;
 
     @Autowired
-    public ModelService(ModelRepository modelRepository, ModelStatsRepository modelStatsRepository) {
+    public ModelService(ModelRepository modelRepository, ModelWorkingStatsRepository modelWorkingStatsRepository) {
         this.repository = modelRepository;
-        this.modelStatsRepository = modelStatsRepository;
+        this.modelWorkingStatsRepository = modelWorkingStatsRepository;
     }
 
     public Page<Model> findAllModelsInPages(Pageable page) {
+        log.info("Fetching Employees. {}", page);
         return repository.findAll(page);
     }
 
-    public Model findModelById(Long id) {
-        return repository.findModelById(id)
-                .orElseThrow(() -> new ApiRequestException("Model not found.", HttpStatus.NOT_FOUND));
+    public Model getOne(Long id) {
+        return repository.findById(id).orElseThrow(() -> {
+            log.error("Model with id '{}' not found.", id);
+            throw new ResourceNotFoundException("Model not found. For id: " + id);
+        });
     }
 
-    public Model addModel(@Valid Model model) {
+    @Transactional
+    public Model save(Model model) {
+        log.info("Saving model: {}", model);
         return repository.save(model);
     }
 
     @Transactional
-    public Model updateModel(Model model) {
-        Model modelToEdit = findModelById(model.getId());
-        modelToEdit.setName(model.getName());
-        modelToEdit.setInnerName(model.getInnerName());
-        modelToEdit.setType(model.getType());
+    public Model update(Model model) {
+        getOne(model.getId());
+        log.info("Updating model with id '{}'", model.getId());
         return repository.save(model);
     }
 
 
-    //TODO decide whether to delete ordered models and orders while deleting models or not
     @Transactional
-    public void deleteModel(Long id) {
-        if (!modelStatsRepository.findAllByModelId(id).isEmpty()) {
-            modelStatsRepository.deleteAllByModelId(id);
+    public void deleteById(Long id) {
+        if (!modelWorkingStatsRepository.existsByModelId(id)) {
+            log.info("Deleting model with id '{}'", id);
+            repository.deleteById(id);
         }
-        repository.deleteModelById(id);
     }
 }

@@ -1,10 +1,7 @@
 package com.simo333.spring.projects.ordersmanager.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,22 +9,25 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "ordered_models")
 public class OrderedModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "Model jest wymagany")
+    @NotNull
     @ManyToOne
     private Model model;
-    @NotNull(message = "Materiał jest wymagany")
-    @Size(min = 1, max = 100, message = "Opis materiału musi zawierać od 1 do 100 znaków")
+    @NotNull
+    @Size(min = 1, max = 100)
     private String material;
     private String specialDesign;
-    @NotNull(message = "Id zamówienia jest wymagane")
+    @NotNull
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private OrderStats order;
 }
